@@ -1,0 +1,24 @@
+{
+  "name": "@zkwq/xcode-core",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist/index.umd.cjs",
+  "module": "dist/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@unocss/reset": "^0.61.8",
+    "unocss": "0.61.7",
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "@logicflow/core": "2.0.0-beta.7",
+    "@logicflow/extension": "2.0.0-beta.7",
+    "@scena/guides": "^0.29.2",
+    "@vue/runtime-dom": "^3.4.34"
+  }
+}
