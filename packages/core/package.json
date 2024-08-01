@@ -19,6 +19,7 @@
     "@logicflow/core": "2.0.0-beta.7",
     "@logicflow/extension": "2.0.0-beta.7",
     "@scena/guides": "^0.29.2",
-    "@vue/runtime-dom": "^3.4.34"
+    "@vue/runtime-dom": "^3.4.34",
+    "moveable": "^0.53.0"
   }
 }
