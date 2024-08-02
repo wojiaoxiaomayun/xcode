@@ -11,7 +11,7 @@ export default defineConfig({
   },
   content:{
     pipeline:{
-      include:[/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,'src/component/*.js']
+      include:[/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,'src/render/*.js']
     }
   }
 })

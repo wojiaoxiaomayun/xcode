@@ -16,10 +16,12 @@
     "vite": "^5.3.4"
   },
   "dependencies": {
+    "@egjs/conveyer": "^1.7.1",
     "@logicflow/core": "2.0.0-beta.7",
     "@logicflow/extension": "2.0.0-beta.7",
     "@scena/guides": "^0.29.2",
     "@vue/runtime-dom": "^3.4.34",
-    "moveable": "^0.53.0"
+    "moveable": "^0.53.0",
+    "pinia": "^2.2.0"
   }
 }

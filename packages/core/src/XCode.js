@@ -1,23 +1,27 @@
 import { renderFlow } from "./flow";
 import { createApp,h } from "@vue/runtime-dom";
-import Index from './component/index.js'
+import { createPinia } from 'pinia'
+import Index from './render/index.js'
 import 'uno.css'
+import { useEditorOptionStore } from "./config/options.js";
 class XCode{
   lf = null;
   plugins = [];
   constructor(dom,options = {
-    flowOptions:{}
+    flow:{},
+    editor:{}
   }){
     if(!dom){
       throw new Error('没有可渲染的DOM元素');
     }
-    this.#initXCode(dom)
+    this.#initXCode(dom,options)
     // this.#initFlow(options?.flowOptions)
   }
 
-  #initXCode(dom){
-    console.log(Index)
-    createApp(Index).mount(dom)
+  #initXCode(dom,options){
+    createApp(Index).use(createPinia()).mount(dom)
+    const {init} = useEditorOptionStore();
+    init(options.editor)
   }
   
   #initFlow(flowOptions = {}){

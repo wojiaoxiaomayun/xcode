@@ -3,13 +3,16 @@ import {ref,defineComponent,h,onMounted,onUnmounted} from '@vue/runtime-dom'
 import Guides from '@scena/guides'
 import ScrollTool from '../util/scroll'
 import Moveable from 'moveable'
+import Conveyer from "@egjs/conveyer";
+import {useEditorOptionStore} from '../config/options'
 export default defineComponent(() => {
-  const editorWidth = ref(2000)
-  const editorHight = ref(2000)
+  const editorOptions = useEditorOptionStore();
   let scrollTool = null
   let guides = null
   let guides1 = null
   onMounted(() => {
+    const ig = new Conveyer("#xcode-editor-container");
+    const ig1 = new Conveyer("#xcode-editor-container",{horizontal:false});
     const guidesDom = document.getElementById('xcode-editor-horizontal-guide');
     guides = new Guides(guidesDom, {
         type: "horizontal",
@@ -27,10 +30,10 @@ export default defineComponent(() => {
     scrollTool = new ScrollTool(document.getElementById('xcode-editor-container'))
     scrollTool.init((position,isBottom,type) => {
       if(type == 'horizontal'){
-        guides.scroll(position)
+        guides.scroll(position - 20)
         guides1.scrollGuides(position)
       }else{
-        guides1.scroll(position)
+        guides1.scroll(position - 20)
         guides.scrollGuides(position)
       }
     })
@@ -52,6 +55,7 @@ export default defineComponent(() => {
       throttleResize: 0,
       throttleScale: 0,
       throttleRotate: 0,
+      stopPropagation:true
     })
     moveable.on("dragStart", ({ target, clientX, clientY }) => {
         console.log("onDragStart", target);
@@ -61,11 +65,14 @@ export default defineComponent(() => {
         beforeDelta, beforeDist, delta, dist,
         clientX, clientY,
     }) => {
-        console.log("onDrag left, top", left, top);
-        target.style.left = `${left}px`;
-        target.style.top = `${top}px`;
-        // console.log("onDrag translate", dist);
-        // target!.style.transform = transform;
+      console.log(target)
+      target.style.transform = `translate(${left}px,${top}px)`
+        if(left > 0 && right > 0){
+          target.style.left = `${left}px`;
+        }
+        if(top > 0 && bottom > 0){
+          target.style.top = `${top}px`;
+        }
     }).on("dragEnd", ({ target, isDrag, clientX, clientY }) => {
         console.log("onDragEnd", target, isDrag);
     });
@@ -101,9 +108,9 @@ export default defineComponent(() => {
       h('div',{
         id:'xcode-editor',
         class:['bg-white','m-50px','b-rd-md','shadow-xl','shadow-white','relative'],
-        style:{width:`${editorWidth.value}px`,height:`${editorHight.value}px`},
+        style:{width:`${editorOptions.width}`,height:`${editorOptions.height}`},
       },[h('div',{
-        class:['xcode-editor-moveable','w-100','h-100','bg-red','absolute']
+        class:['xcode-editor-moveable','w-100','h-100','bg-red']
       })])
     ])
   ]) 
