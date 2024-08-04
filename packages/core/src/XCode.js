@@ -1,7 +1,7 @@
 import { renderFlow } from "./flow";
 import { createApp,h } from "@vue/runtime-dom";
 import { createPinia } from 'pinia'
-import Index from './render/index.js'
+import Index from './editor/index.js'
 import 'uno.css'
 import { useEditorOptionStore } from "./config/options.js";
 class XCode{
