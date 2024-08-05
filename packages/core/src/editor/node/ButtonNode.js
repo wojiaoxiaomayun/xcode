@@ -1,6 +1,5 @@
 import BaseNode from "./BaseNode";
-import {ref,h,render as renderDom,defineComponent,nextTick} from '@vue/runtime-dom'
-import Moveable from "moveable";
+import {ref,h,render as renderDom,defineComponent} from '@vue/runtime-dom'
 export default class ButtonNode extends BaseNode{
   name = '__x_button'
   text = ref('按钮')
