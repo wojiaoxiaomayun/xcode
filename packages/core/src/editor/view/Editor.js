@@ -1,41 +1,14 @@
 import {defineComponent,h,onMounted, onUnmounted} from '@vue/runtime-dom'
 import ScrollTool from '../util/scroll'
-import Guides from '@scena/guides'
+
 import Conveyer from '@egjs/conveyer'
 import ButtonNode from '../node/ButtonNode'
+import Bus from '../../util/Bus'
+import {Editor_Mounted,Editor_UnMounted} from '../../EventKey'
 export default class Editor{
   hguides = null
   vguides = null
-  // 创建标尺
-  #initHguides(){
-    onMounted(() => {
-      const guidesDom = document.getElementById('xcode-editor-horizontal-guide');
-      this.hguides = new Guides(guidesDom, {
-          type: "horizontal",
-      }).on("changeGuides", e => {
-          console.log(e.guides);
-      });
-      this.hguides.scroll(-20)
-    })
-    onUnmounted(() => {
-      this.hguides?.destory()
-    })
-  }
-  // 创建标尺
-  #initVguides(){
-    onMounted(() => {
-      const guides1Dom = document.getElementById('xcode-editor-vertical-guide');
-      this.vguides = new Guides(guides1Dom, {
-          type: "vertical",
-      }).on("changeGuides", e => {
-          console.log(e.guides);
-      });
-      this.vguides.scroll(-20)
-    })
-    onUnmounted(() => {
-      this.vguides?.destory()
-    })
-  }
+  
 
   //监听滚动条对标尺做出变更 
   #initScroll(){
@@ -69,13 +42,18 @@ export default class Editor{
 
   render(){
     return defineComponent(() => {
-      this.#initHguides()
-      this.#initVguides()
       this.#initScroll()
       this.#initConveyer()
       onMounted(() => {
+        Bus.emit(Editor_Mounted)
         let node = new ButtonNode();
         node.init(document.getElementById('xcode-editor'))
+        setTimeout(() => {
+          node.text.value = '中国共产党'
+        },2000)
+      })
+      onUnmounted(() => {
+        Bus.emit(Editor_UnMounted)
       })
       return () => h('div',{
         class:['w-100%','h-100%','relative']
