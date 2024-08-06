@@ -1,6 +1,7 @@
-export default Bus = {
-  listener:new Map(),
-	on:function(eventName,callBack){
+export default class Bus{
+  listener = new Map();
+
+	on(eventName,callBack){
     if(!callBack){
       return this;
     }
@@ -9,16 +10,16 @@ export default Bus = {
 		}
     this.listener.get(eventName).push(callBack);
 		return this;
-	},	
-	emit:function(eventName,options){
+	}
+  emit(eventName,options){ 
     let callbacks = this.listener.get(eventName) || []
     callbacks.forEach(callback => {
       let ret = callback.call(this,options)
       if(options.success){ret?options.success(ret):options.success()}							
     })
     return this;
-	},
-	remove:function(eventName){
+	}
+	remove(eventName){
 		this.listener.delete(eventName)
     return this;
 	}

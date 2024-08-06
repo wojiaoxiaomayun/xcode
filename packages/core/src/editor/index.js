@@ -1,16 +1,35 @@
 
-import {defineComponent,h} from '@vue/runtime-dom'
-import Editor from './view/Editor'
+import {defineComponent,h,nextTick,onMounted,onUnmounted} from '@vue/runtime-dom'
+import RenderLayer from './view/RenderLayer'
 import ToolsLayer from './view/ToolLayer'
-export default defineComponent(() => {
-  let editor = new Editor()
-  let toolsLayer = new ToolsLayer()
-  return () => h('div',{
-    id:'xcode',
-    class:['w-100%','h-100%','relative']
-  },[
-    h(editor.render()),
-    h(toolsLayer.render())
-  ])
-  
-})
+import { Editor_Mounted,Editor_UnMounted } from '../EventKey'
+export default class Editor{
+  xcode = null
+  renderLayer = null
+  toolsLayer = null
+
+  constructor(xcode){
+    this.xcode = xcode
+    this.renderLayer = new RenderLayer();
+    this.toolsLayer = new ToolsLayer()
+  }
+
+  render(){
+    return defineComponent(() => {
+      onMounted(() => {
+        nextTick(() => {
+          this.xcode.bus.emit(Editor_Mounted)
+        })
+      })
+      onUnmounted(() => {
+        this.xcode.bus.emit(Editor_UnMounted)
+      })
+      return () => h('div',{
+        class:['xcode-editor-container','w-100%','h-100%','relative']
+      },[
+        h(this.renderLayer.render()),
+        h(this.toolsLayer.render())
+      ])
+    })
+  }
+}

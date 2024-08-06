@@ -1,15 +1,10 @@
-import {defineComponent,h,onMounted, onUnmounted} from '@vue/runtime-dom'
+import {defineComponent,h,onMounted, onUnmounted,ref} from '@vue/runtime-dom'
 import ScrollTool from '../util/scroll'
 
 import Conveyer from '@egjs/conveyer'
 import ButtonNode from '../node/ButtonNode'
-import Bus from '../../util/Bus'
-import {Editor_Mounted,Editor_UnMounted} from '../../EventKey'
-export default class Editor{
-  hguides = null
-  vguides = null
-  
-
+export default class RenderLayer{
+  target = ref(null)
   //监听滚动条对标尺做出变更 
   #initScroll(){
     onMounted(() => {
@@ -45,39 +40,26 @@ export default class Editor{
       this.#initScroll()
       this.#initConveyer()
       onMounted(() => {
-        Bus.emit(Editor_Mounted)
+        // this.xcode.bus.emit(Editor_Mounted)
+        console.log('renderLayer')
         let node = new ButtonNode();
-        node.init(document.getElementById('xcode-editor'))
+        node.init(this.target.value)
         setTimeout(() => {
+          console.log(this.target.value.querySeletor('div'))
           node.text.value = '中国共产党'
         },2000)
       })
       onUnmounted(() => {
-        Bus.emit(Editor_UnMounted)
       })
-      return () => h('div',{
-        class:['w-100%','h-100%','relative']
-      },[
-        h('div',
-          {
-            id:'xcode-editor-horizontal-guide',
-            class:['absolute','top-0','left-30px','right-0','h-30px','z-1']
-        }),
-        h('div',
-          {
-            id:'xcode-editor-vertical-guide',
-            class:['absolute','top-30px','bottom-20px','left-0','w-30px','z-1']
-        }),
+      return () => 
         h('div',{
-          id:'xcode-editor-container',
-          class:['w-100%','h-100%','of-auto','bg-#1B1B1F']
+          class:['xcode-editor-wrap','w-100%','h-100%','of-auto','bg-#1B1B1F']
         },[
           h('div',{
-            id:'xcode-editor',
-            class:['bg-white','m-50px','b-rd-md','shadow-xl','shadow-white','relative','w-1200px','h-1800px']
+            ref:this.target,
+            class:['xcode-editor-page','bg-white','m-50px','b-rd-md','shadow-xl','shadow-white','relative','w-1200px','h-1800px']
           })
         ])
-      ]) 
     },{
       name:'Editor'
     })

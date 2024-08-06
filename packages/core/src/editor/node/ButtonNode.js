@@ -7,7 +7,8 @@ export default class ButtonNode extends BaseNode{
   resizable = false
   
   render(editor){
-    const Button = defineComponent(({},{attrs}) => {
+    console.log(editor)
+    const Button = defineComponent(({}) => {
       return () => h('div',{
         class:['w-auto','h-auto','of-hidden','pt-8px','pb-8px','pl-16px','pr-16px','bg-red','color-white','b-none',this.position]
       },this.text.value)
