@@ -1,15 +1,17 @@
 import { renderFlow } from "./flow";
-import { createApp,h } from "@vue/runtime-dom";
+import { createApp,h,ref } from "@vue/runtime-dom";
 import { createPinia } from 'pinia'
 import Editor from './editor/index.js'
 import 'uno.css'
 import { useEditorOptionStore } from "./config/options.js";
 import Bus from "./util/Bus.js";
+import GuidesPlugin from './plugins/editor-guides-plugin.js'
 class XCode{
   container = null
   lf = null;
-  plugins = [];
+  plugins = new Map();
   bus = new Bus()
+  editor = null
   constructor(dom,options = {
     flow:{},
     editor:{},
@@ -18,24 +20,20 @@ class XCode{
     if(!dom){
       throw new Error('没有可渲染的DOM元素');
     }
-    this.plugins = options.plugins
     this.#initXCode(dom,options)
     // this.#initFlow(options?.flowOptions)
+    this.use(GuidesPlugin)
   }
-
-  #initPlugins(){
-    this.plugins?.forEach(e => {
-      e.install(this)
-    })
+  use(plugin,options){
+    this.plugins.set(plugin.name,plugin)
+    plugin.install(this,options)
   }
 
   #initXCode(dom,options){
-    let editor = new Editor(this)
-    let app = createApp(editor.render())
+    this.editor = new Editor(this)
+    let app = createApp(this.editor.render())
     app.use(createPinia()).mount(dom)
     this.container = app._container
-    const {init} = useEditorOptionStore();
-    init(options.editor)
   }
   
   #initFlow(flowOptions = {}){

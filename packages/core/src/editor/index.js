@@ -1,8 +1,8 @@
 
-import {defineComponent,h,nextTick,onMounted,onUnmounted} from '@vue/runtime-dom'
+import {defineComponent,h,onMounted,onUnmounted,nextTick} from '@vue/runtime-dom'
 import RenderLayer from './view/RenderLayer'
 import ToolsLayer from './view/ToolLayer'
-import { Editor_Mounted,Editor_UnMounted } from '../EventKey'
+import {Editor_Mounted,Editor_UnMounted } from '../EventKey'
 export default class Editor{
   xcode = null
   renderLayer = null

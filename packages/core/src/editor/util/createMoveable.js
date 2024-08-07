@@ -4,8 +4,7 @@ export const createMoveable = (partentElement,options) => {
   return new Moveable(partentElement,options)
 }
 
-export const useDefaultMoveable = (target,resizable) => {
-  let editorDom = document.getElementById('xcode-editor')
+export const useDefaultMoveable = (editorDom,target,resizable) => {
   const moveable = createMoveable(editorDom,{
     target:target,
     draggable: true,
