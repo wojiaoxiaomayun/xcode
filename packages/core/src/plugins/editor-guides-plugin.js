@@ -3,10 +3,12 @@ import Guides from '@scena/guides'
 import ScrollTool from '../editor/util/scroll'
 const GuidesPlugin = {
   name:'editor-guides-plugin',
+  // dev|preview|both
+  type:'dev',
   xcode:null,
   hguides:null,
   vguides:null,
-  install(xcode,options){
+  install(xcode){
     this.xcode = xcode;
     this.initHguides()
     this.initVguides()

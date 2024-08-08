@@ -1,8 +1,6 @@
 import { useDefaultMoveable } from "../util/createMoveable"
 
 export default class BaseNode {
-  DEV__STATUS = true
-
   static name = '__x_base'
 
   //定位模式
@@ -15,12 +13,14 @@ export default class BaseNode {
   xcode = null
 
   constructor(xcode){
+    console.log('创建了',xcode)
     this.xcode = xcode;
   }
 
   init(editor) {
     this.target = this.render(editor)
-    if (this.DEV__STATUS) {
+    console.log(this.xcode.preview)
+    if (!this.xcode.preview) {
       if (this.position == 'absolute') {
         this.initMoveable(editor)
       }
@@ -40,11 +40,11 @@ export default class BaseNode {
   }
 
   //备份数据，包括要渲染的状态等等
-  backup() {
+  getData() {
 
   }
   //还原数据及状态
-  restore(data) {
+  renderData(data) {
 
   }
 }

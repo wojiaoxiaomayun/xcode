@@ -4,7 +4,6 @@ import ScrollTool from '../util/scroll'
 import Conveyer from '@egjs/conveyer'
 export default class RenderLayer{
   target = ref(null)
-  //监听滚动条对标尺做出变更 
 
   getTarget(){
     return this.target.value;
